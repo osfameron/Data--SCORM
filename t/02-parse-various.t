@@ -18,7 +18,10 @@ for my $file (@files) {
   SKIP: {
 	my $m = eval { Data::SCORM::Manifest->parsefile($file) };
 	ok ($m, "Parsed Scorm $file")
-		or skip "Couldn't even parse $@", 4;
+		or do {
+			diag $@;
+			skip "Couldn't even parse", 4;
+		  };
 
 	isa_ok $m, 'Data::SCORM::Manifest';
 

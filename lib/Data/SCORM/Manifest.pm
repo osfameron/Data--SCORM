@@ -6,7 +6,6 @@ use XML::Twig;
 use Data::SCORM::Organization;
 use Data::SCORM::Item;
 use Data::SCORM::Resource;
-use Scalar::Util qw/ blessed /;
 
 use Data::Dumper;
 

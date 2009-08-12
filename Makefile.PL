@@ -13,6 +13,8 @@ requires 'MouseX::AttributeHelpers';
 requires 'Mouse::Util::TypeConstraints';
 requires 'Scalar::Util';
 requires 'XML::Twig';
+requires 'Archive::Extract';
+requires 'File::Temp';
 
 auto_install;
 

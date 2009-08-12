@@ -3,7 +3,6 @@ package Data::SCORM::Organization;
 use Any::Moose;
 use Any::Moose qw/ X::AttributeHelpers /;
 use Any::Moose qw/ ::Util::TypeConstraints /;
-use Scalar::Util qw/ blessed /;
 use Data::SCORM::Item;
 use Data::SCORM::Types;
 
