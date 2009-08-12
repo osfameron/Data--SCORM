@@ -75,16 +75,17 @@ has 'resources' => (
 		},
 	);
 
-sub _munge_scorm_xml_keys {
-	my $data = shift;
+sub _simplify {
+	my $node = shift;
+	my $data = $node->simplify;
 	return {
 		map {
 			my $v = $data->{$_};
 			(my $k = $_) =~ s/^adlseq://;
 			($k => $v);
-		    }
-		keys %$data
-		};
+		  }
+		  keys %$data
+	  };
 }
 
 around 'new' => sub {
@@ -115,7 +116,7 @@ sub parsefile {
 		twig_handlers => {
 			'manifest/metadata' => sub { 
 				my ($t, $metadata) = @_;
-				$data{metadata} = $metadata->simplify;;
+				$data{metadata} = _simplify($metadata);
 				# alternatively $metadata->findnodes('lom:lom')... etc. ->delete
 				# i.e. to do something cleverer with lom:lom
 			  },
@@ -128,7 +129,7 @@ sub parsefile {
 					my @items = map { 
 						$_->delete; 
 						Data::SCORM::Item->new(%{ 
-							_munge_scorm_xml_keys( $_->simplify )
+							_simplify($_) 
 						})
 						} 
 						$_->findnodes('item');
@@ -146,10 +147,9 @@ sub parsefile {
 				my ($t, $resources) = @_;
 				my %resources = map 
 					{ 
+					  my $res = _simplify($_);
 					  $_->att('identifier') => 
-					  Data::SCORM::Resource->new(%{
-						_munge_scorm_xml_keys( $_->simplify )
-					  })
+					  Data::SCORM::Resource->new(%$res);
 					}
 					$resources->children; 
 					# findnodes('resource')

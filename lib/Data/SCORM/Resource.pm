@@ -29,9 +29,17 @@ has 'type' => (
         isa       => 'Str',
         );
 
+subtype 'ListOfFiles'
+	=> as 'ArrayRef[HashRef]';
+
+coerce 'ListOfFiles'
+	=> from 'HashRef'
+		=> via { [$_] };
+
 has 'file' => (
         is        => 'rw',
-        isa       => 'HashRef', # or File, TODO
+        isa       => 'ListOfFiles',
+	coerce    => 1,
         );
 
 =head1 SYNOPSIS
