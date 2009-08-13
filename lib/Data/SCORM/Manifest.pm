@@ -6,6 +6,7 @@ use XML::Twig;
 use Data::SCORM::Organization;
 use Data::SCORM::Item;
 use Data::SCORM::Resource;
+use JSON::Any;
 
 use Data::Dumper;
 
@@ -111,6 +112,9 @@ sub parsefile {
 
 	my %data;
 
+	# TODO: consider whether I want to create the objects from HoH structures
+	#       /here/ or to do it in coercions in each class
+
 	my $t = XML::Twig->new(
 		twig_handlers => {
 			'manifest/metadata' => sub { 
@@ -165,6 +169,42 @@ sub parsefile {
 	die "Couldn't parse SCORM manifest $file\: $@" if $@;
 
 	return $class->new(%data);
+}
+
+sub as_hoh {
+	# turn this into a normal perl data structure that we can jsonnify
+	my ($self, $url_base) = @_;
+	$url_base ||= '';
+
+	my %organizations = map {
+		my $org_name = $_;
+		my $org = $self->get_organization($org_name);
+		my @resources = map {
+			my $id  = $_->identifierref;
+			my $res = $self->get_resource($id);
+			my @files = map {
+				"$url_base/$_->{href}"
+			  } $res->all_files;
+			+{ %$res, file => \@files }; # naive object flattening
+		  } $org->all_items;
+
+		my %org = %$org;
+		$org{resources} = \@resources;
+
+		( $org_name => \%org );
+	  } $self->organization_ids;
+
+	return {
+		metadata      => +{ %{$self->metadata} },
+		organizations => \%organizations,
+	  };
+}
+
+sub to_json {
+	my $self = shift;
+	my $hoh = $self->as_hoh(@_); # e.g. the $url_base param
+	my $js = JSON::Any->new( allow_blessed => 1 );
+	return $js->to_json($hoh);
 }
 
 # __PACKAGE__->make_immutable;

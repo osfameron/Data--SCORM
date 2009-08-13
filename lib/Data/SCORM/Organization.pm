@@ -43,7 +43,7 @@ has 'items' => (
                 count    => 'count_items',
 		get      => 'get_item',
 		map      => 'map_items',
-                },
+	  },
         );
 
 =head1 SYNOPSIS

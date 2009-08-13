@@ -37,9 +37,17 @@ coerce 'ListOfFiles'
 		=> via { [$_] };
 
 has 'file' => (
+	metaclass => 'Collection::Array',
         is        => 'rw',
         isa       => 'ListOfFiles',
+	default   => sub { +[] },
 	coerce    => 1,
+	provides => {
+		elements => 'all_files',
+		count    => 'count_files',
+		get      => 'get_file',
+		map      => 'map_files',
+	  },
         );
 
 =head1 SYNOPSIS
