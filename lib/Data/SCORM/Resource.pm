@@ -28,6 +28,14 @@ has 'type' => (
         is        => 'rw',
         isa       => 'Str',
         );
+has 'href' => ( # optional attribute
+        is        => 'rw',
+        isa       => 'Maybe[Str]',
+        );
+has 'dependency' => ( # optional attribute
+        is        => 'rw',
+        isa       => 'Maybe[HashRef]',
+        );
 
 subtype 'ListOfFiles'
 	=> as 'ArrayRef[HashRef]';
