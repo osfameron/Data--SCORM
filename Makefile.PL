@@ -14,9 +14,9 @@ requires 'MouseX::AttributeHelpers';
 requires 'Mouse::Util::TypeConstraints';
 requires 'Scalar::Util';
 requires 'XML::Twig';
-requires 'Archive::Extract';
 requires 'File::Temp';
 requires 'JSON::Any';
+requires 'IPC::Run';
 
 auto_install;
 

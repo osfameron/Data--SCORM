@@ -5,7 +5,7 @@ use Any::Moose qw/ ::Util::TypeConstraints /;
 use Data::SCORM::Manifest;
 use File::Temp qw/ tempdir /;
 use Path::Class::Dir;
-use Archive::Extract;
+use IPC::Run qw/ run /;
 
 use Data::Dumper;
 
@@ -58,11 +58,32 @@ sub extract_from_pif {
 	
 	$path ||= tempdir; # no cleanup?, as caller may want to rename etc.
 	
-	my $ae = Archive::Extract->new( archive => $pif );
-	$ae->extract( to => $path )
-		or die "Couldn't extract pif $pif, " . $ae->error;
+    my $status = unzip ($pif, $path);
+    die "Couldn't extract pif $pif, $status"
+        if $status;
 
 	return $class->from_dir($path);
+}
+
+sub unzip {
+    # Archive::Extract, Archive::Zip would arguably be the Right Thing
+    # to do here.  But we have to handle some corrupt archives, e.g. without
+    # an EOCF (End of Central Directory) number.
+    # so we'll use unzip for now.
+
+    my ($pif, $path) = @_;
+    my $status = run 
+        [ unzip => $pif,
+           -d => $path ], '>', '/dev/null';
+
+    return unless $status; # success
+
+    $status >>= 8; # oddity of 'system'
+
+    warn "unzip(1) encountered wawrning/error $status";
+    return if $status == 1; # just a warning;
+
+    return $status;
 }
 
 sub from_dir {
