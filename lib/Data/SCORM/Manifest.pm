@@ -14,15 +14,6 @@ use Data::Dumper;
 
 Data::SCORM::Manifest - The great new Data::SCORM::Manifest!
 
-=head1 VERSION
-
-Version 0.01
-
-=cut
-
-our $VERSION = '0.01';
-
-
 =head1 SYNOPSIS
 
 Quick summary of what the module does.
@@ -94,9 +85,9 @@ around 'new' => sub {
 	for my $org (values %{$self->organizations}) {
 		for my $item ($org->all_items) {
 			my $id = $item->identifierref;
-			$item->resource(
-				$self->get_resource($id)
-			  );
+			my $resource = $self->get_resource($id)
+				or die "Couldn't get resource $id " . Dumper($item);
+			$item->resource($resource);
 		}
 	}
 	return $self;
