@@ -1,7 +1,7 @@
 use inc::Module::Install;
 
-name     'Data-SCORM-Manifest';
-all_from 'lib/Data/SCORM/Manifest.pm';
+name     'Data-SCORM';
+all_from 'lib/Data/SCORM.pm';
 author   q{OSFAMERON <osfameron@cpan.org>};
 license  'perl';
 
