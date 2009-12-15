@@ -142,8 +142,9 @@ sub parsefile {
 				my %resources = map 
 					{ 
 					  my $res = _simplify($_);
-					  $_->att('identifier') => 
-					  Data::SCORM::Resource->new(%$res);
+					  my $res_object = Data::SCORM::Resource->new(%$res);
+					  # warn Dumper($res, $res_object);
+					  ($_->att('identifier') => $res_object);
 					}
 					$resources->children; 
 					# findnodes('resource')
@@ -181,6 +182,13 @@ sub as_hoh {
 
 		my %org = %$org;
 		$org{resources} = \@resources;
+
+        my @items = map { 
+            my $item = { %$_ };
+            $item->{resource} = { %{ $item->{resource} } };
+            $item;
+            } @{ $org{items} };
+        $org{items} = \@items;
 
 		( $org_name => \%org );
 	  } $self->organization_ids;
