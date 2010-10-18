@@ -76,14 +76,17 @@ sub unzip {
         [ unzip => $pif,
            -d => $path ], '>', '/dev/null';
 
-    return unless $status; # success
+    my $ok = $status ?
+        ($status ~~ [1, 1<<8] ? 1 : 0) # oddity of unzip 'warning' status
+        : 1;
 
-    $status >>= 8; # oddity of 'system'
-
-    warn "unzip(1) encountered wawrning/error $status";
-    return if $status == 1; # just a warning;
-
-    return $status;
+    if ($ok) {
+        return;
+    } else {
+        $status >>= 8; # oddity of 'system'
+        warn "unzip(1) encountered warning/error $status";
+        return $status;
+    }
 }
 
 sub from_dir {
@@ -96,7 +99,12 @@ sub from_dir {
 			manifest => Data::SCORM::Manifest->parsefile($manifest),
 		  );
 	} else {
-		die "No such manifest: $manifest";
+        # may be a single directory
+        my @subdirectories = grep $_->is_dir, $path->children;
+        if (@subdirectories == 1) {
+            return $class->from_dir( $subdirectories[0] );
+        }
+        return;
 	}
 }
 
