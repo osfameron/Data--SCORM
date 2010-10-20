@@ -1,12 +1,4 @@
 Changes
-Data-SCORM-Manifest-0.01/Changes
-Data-SCORM-Manifest-0.01/lib/Data/SCORM/Manifest.pm
-Data-SCORM-Manifest-0.01/Makefile.PL
-Data-SCORM-Manifest-0.01/MANIFEST
-Data-SCORM-Manifest-0.01/README
-Data-SCORM-Manifest-0.01/t/00-load.t
-Data-SCORM-Manifest-0.01/t/pod-coverage.t
-Data-SCORM-Manifest-0.01/t/pod.t
 ignore.txt
 inc/Module/AutoInstall.pm
 inc/Module/Install.pm
@@ -37,7 +29,10 @@ t/03-upload-pif.t
 t/04-runtime-minimum-calls-manifest.t
 t/boilerplate.t
 t/manifests/imsmanifest-2004-3.xml
+t/manifests/imsmanifest-ContentPackagingOneFilePerSCO_SCORM20043rdEdition.xml
+t/manifests/imsmanifest-ContentPackagingSingleSCO_SCORM20043rdEdition.xml
 t/manifests/imsmanifest-Level2Sales.xml
+t/manifests/imsmanifest-RuntimeMinimumCalls_SCORM12.xml
 t/manifests/imsmanifest-scorm1.2.xml
 t/manifests/imsmanifest-Toolkit.xml
 t/pifs/ContentPackagingSingleSCO_SCORM20043rdEdition.zip
