@@ -17,6 +17,7 @@ requires 'XML::Twig';
 requires 'File::Temp';
 requires 'JSON::Any';
 requires 'IPC::Run';
+requires 'Params::Coerce';
 
 auto_install;
 

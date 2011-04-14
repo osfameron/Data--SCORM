@@ -4,6 +4,8 @@ use Any::Moose;
 use Any::Moose qw/ ::Util::TypeConstraints /;
 use Data::SCORM::Types;
 
+use Params::Coerce;
+
 =head1 NAME
 
 Data::SCORM::Resource 
@@ -32,10 +34,19 @@ has 'href' => ( # optional attribute
         is        => 'rw',
         isa       => 'Maybe[Str]',
         );
+
+subtype 'Dependency' 
+    => as 'Maybe[ArrayRef[HashRef]]';
+coerce 'Dependency'
+    => from 'HashRef'
+        => via { [ $_ ] };
+
 has 'dependency' => ( # optional attribute
         is        => 'rw',
-        isa       => 'Maybe[HashRef]',
+        isa       => 'Dependency',
+        coerce    => 1,
         );
+
 
 subtype 'ListOfFiles'
 	=> as 'ArrayRef[HashRef]';
