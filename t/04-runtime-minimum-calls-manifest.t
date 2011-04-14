@@ -10,10 +10,10 @@ use Data::Dumper;
 skip_all "This test fails";
 
 BEGIN {
-    use_ok( 'Data::SCORM::Manifest' );
+    use_ok( 'Data::SCORM' );
 }
 
-diag( "Testing Data::SCORM::Manifest $Data::SCORM::Manifest::VERSION, Perl $], $^X" );
+diag( "Testing Data::SCORM $Data::SCORM::VERSION, Perl $], $^X" );
 
 ok (my $m = Data::SCORM::Manifest->parsefile(
     "$Bin/manifests/imsmanifest-RuntimeMinimumCalls_SCORM12.xml"),

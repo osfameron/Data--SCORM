@@ -7,10 +7,10 @@ use FindBin qw/ $Bin /;
 use Data::Dumper;
 
 BEGIN {
-    use_ok( 'Data::SCORM::Manifest' );
+    use_ok( 'Data::SCORM' );
 }
 
-diag( "Testing Data::SCORM::Manifest $Data::SCORM::Manifest::VERSION, Perl $], $^X" );
+diag( "Testing Data::SCORM $Data::SCORM::VERSION, Perl $], $^X" );
 
 ok (my $m = Data::SCORM::Manifest->parsefile("$Bin/manifests/imsmanifest-2004-3.xml"),
     "Created scorm");

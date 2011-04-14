@@ -4,9 +4,9 @@ use strict; use warnings;
 
 use FindBin qw/ $Bin /;
 use Data::Dumper;
-use Data::SCORM::Manifest;
+use Data::SCORM;
 
-diag( "Testing Data::SCORM::Manifest, Perl $], $^X" );
+diag( "Testing Data::SCORM $Data::SCORM::VERSION, Perl $], $^X" );
 
 my @files;
 BEGIN {

@@ -8,7 +8,7 @@ use Data::SCORM;
 use Test::LongString;
 use Path::Class 'file';
 
-diag( "Testing Data::SCORM::Manifest $Data::SCORM::Manifest::VERSION, Perl $], $^X" );
+diag( "Testing Data::SCORM $Data::SCORM::VERSION, Perl $], $^X" );
 
 my @files; 
 my %json;

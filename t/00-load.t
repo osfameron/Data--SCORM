@@ -1,9 +1,9 @@
-#!perl -T
+#!perl
 
 use Test::More tests => 1;
 
 BEGIN {
-    use_ok( 'Data::SCORM::Manifest' );
+    use_ok( 'Data::SCORM' );
 }
 
-diag( "Testing Data::SCORM::Manifest $Data::SCORM::Manifest::VERSION, Perl $], $^X" );
+diag( "Testing Data::SCORM $Data::SCORM::VERSION, Perl $], $^X" );
