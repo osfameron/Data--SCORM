@@ -32,6 +32,7 @@ t/manifests/imsmanifest-2004-3.xml
 t/manifests/imsmanifest-ContentPackagingOneFilePerSCO_SCORM20043rdEdition.xml
 t/manifests/imsmanifest-ContentPackagingSingleSCO_SCORM20043rdEdition.xml
 t/manifests/imsmanifest-Level2Sales.xml
+t/manifests/imsmanifest-multiple-dependencies.xml
 t/manifests/imsmanifest-RuntimeMinimumCalls_SCORM12.xml
 t/manifests/imsmanifest-scorm1.2.xml
 t/manifests/imsmanifest-Toolkit.xml
