@@ -12,13 +12,9 @@ use Data::Dumper;
 
 =head1 NAME
 
-Data::SCORM::Manifest - The great new Data::SCORM::Manifest!
+Data::SCORM::Manifest - represent the Manifest
 
 =head1 SYNOPSIS
-
-Quick summary of what the module does.
-
-Perhaps a little code snippet.
 
     use Data::SCORM::Manifest;
 
