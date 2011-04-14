@@ -15,23 +15,16 @@ Data::SCORM - Parse SCO files (PIFs)
 
 =head1 VERSION
 
-Version 0.04
+Version 0.05
 
 =cut
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 
 =head1 SYNOPSIS
 
-Quick summary of what the module does.
-
-Perhaps a little code snippet.
-
-    use Data::SCORM;
-
-    my $foo = Data::SCORM->new();
-    ...
+see Data::SCORM::Manifest
 
 =cut
 
@@ -147,7 +140,7 @@ L<http://search.cpan.org/dist/Data-SCORM/>
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright 2009 OSFAMERON.
+Copyright 2009-2011 OSFAMERON.
 
 This program is free software; you can redistribute it and/or modify it
 under the terms of either: the GNU General Public License as published
