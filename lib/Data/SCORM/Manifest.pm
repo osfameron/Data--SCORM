@@ -80,10 +80,13 @@ around 'new' => sub {
 	my $self = $code->(@params);
 	for my $org (values %{$self->organizations}) {
 		for my $item ($org->all_items) {
-			my $id = $item->identifierref;
-			my $resource = $self->get_resource($id)
-				or die "Couldn't get resource $id " . Dumper($item);
-			$item->resource($resource);
+			my $id = $item->identifierref or next;
+			if (my $resource = $self->get_resource($id)) {
+                $item->resource($resource);
+            }
+            else {
+				warn "Couldn't get resource $id, if it is an Aggregation item (only contains children) then it should not have an identifierredf";
+            }
 		}
 	}
 	return $self;

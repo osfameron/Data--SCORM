@@ -6,14 +6,14 @@ use FindBin qw/ $Bin /;
 use Data::Dumper;
 use Data::SCORM::Manifest;
 
-diag( "Testing Data::SCORM::Manifest $Data::SCORM::Manifest::VERSION, Perl $], $^X" );
+diag( "Testing Data::SCORM::Manifest, Perl $], $^X" );
 
 my @files;
 BEGIN {
   @files = glob("$Bin/manifests/imsmanifest*xml");
 }
-# use Test::More tests => (scalar @files * 5);
-use Test::More 'skip_all';
+use Test::More tests => (scalar @files * 5);
+# use Test::More 'skip_all';
 
 for my $file (@files) {
   SKIP: {
@@ -33,9 +33,13 @@ for my $file (@files) {
 	isa_ok $item, 'Data::SCORM::Item';
 
 	diag $item->identifier;
-	my $resource = $item->resource;
-	isa_ok $resource, 'Data::SCORM::Resource';
-	diag $resource->identifier;
+	if (my $resource = $item->resource) {
+        isa_ok $resource, 'Data::SCORM::Resource';
+        diag $resource->identifier;
+    }
+    else {
+        skip "Not a resource (possibly an Aggregation item?)", 1;
+    }
   }
 }
 
