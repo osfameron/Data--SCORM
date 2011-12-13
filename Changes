@@ -1,5 +1,8 @@
 Revision history for Data-SCORM-Manifest
 
+0.06    2011-12-13
+        Fix __MACOSX/ zip extraction
+
 0.05    2011-05-03
         Fixes to tests
         No longer die on <item> with unresolved identifierref (may be Aggregate)
