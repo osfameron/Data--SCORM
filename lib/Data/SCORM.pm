@@ -77,7 +77,7 @@ sub unzip {
         return;
     } else {
         $status >>= 8; # oddity of 'system'
-        warn "unzip(1) encountered warning/error $status";
+        die "unzip(1) encountered warning/error $status";
         return $status;
     }
 }
@@ -93,11 +93,17 @@ sub from_dir {
 		  );
 	} else {
         # may be a single directory
-        my @subdirectories = grep $_->is_dir, $path->children;
+        my @subdirectories = 
+            grep { 
+                my $name = ($_->dir_list)[-1];
+                $name !~/^__/ 
+            } # e.g. __MACOSX
+            grep $_->is_dir, 
+            $path->children;
         if (@subdirectories == 1) {
             return $class->from_dir( $subdirectories[0] );
         }
-        return;
+        die "Invalid zip (must contain exactly 1 directory)";
 	}
 }
 
