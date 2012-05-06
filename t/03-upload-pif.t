@@ -29,7 +29,7 @@ for my $file (@files) {
 	my $s = eval { Data::SCORM->extract_from_pif( $file ) };
 	ok ($s, "Extracted Scorm $s")
 		or do {
-			diag "ERROR $@";
+			diag "ERROR $@ parsing $file";
 			skip "Couldn't even parse", 10;
 		  };
 

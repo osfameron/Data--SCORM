@@ -1,4 +1,6 @@
 Changes
+Data-SCORM-0.06.tar
+Data-SCORM-0.06.tar.gz
 ignore.txt
 inc/Module/AutoInstall.pm
 inc/Module/Install.pm
@@ -37,5 +39,6 @@ t/manifests/imsmanifest-RuntimeMinimumCalls_SCORM12.xml
 t/manifests/imsmanifest-scorm1.2.xml
 t/manifests/imsmanifest-Toolkit.xml
 t/pifs/ContentPackagingSingleSCO_SCORM20043rdEdition.zip
+t/pifs/ContentPackagingSingleSCO_SCORM20043rdEdition__MACOSX.zip
 t/pod-coverage.t
 t/pod.t
