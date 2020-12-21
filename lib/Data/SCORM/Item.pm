@@ -17,15 +17,15 @@ our $VERSION = '0.01';
 
 has 'identifier' => (
         is        => 'rw',
-        # isa       => 'Str',
+        isa       => 'Str',
         );
 has 'identifierref' => (
         is        => 'rw',
-        # isa       => 'Str',
+        isa       => 'Str',
         );
 has 'title' => (
         is        => 'rw',
-        # isa       => 'Str',
+        isa       => 'Str',
         );
 has 'resource' => (
         is        => 'rw',
@@ -34,8 +34,8 @@ has 'resource' => (
 
 has 'isvisible' => (
         is        => 'rw',
-        isa       => 'Any',
-	# coerce    => 1,
+        isa       => 'Bool',
+	      coerce    => 1,
         );
 
 =head1 SYNOPSIS
