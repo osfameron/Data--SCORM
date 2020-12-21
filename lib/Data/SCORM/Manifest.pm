@@ -1,7 +1,6 @@
 package Data::SCORM::Manifest;
 
-use Any::Moose;
-use Any::Moose qw/ X::AttributeHelpers /;
+use Moose;
 use XML::Twig;
 use Data::SCORM::Organization;
 use Data::SCORM::Item;
@@ -24,41 +23,42 @@ Data::SCORM::Manifest - represent the Manifest
 =cut
 
 has 'metadata' => (
-	metaclass => 'Collection::Hash',
+	# metaclass => 'Collection::Hash',
 	is        => 'rw',
 	isa       => 'HashRef',
 	default   => sub { +{} },
-	provides  => {
-		exists => 'has_metadata',
-		keys   => 'metadata_ids',
-		get    => 'get_metadata',
-		set    => 'set_metadata',
-		},
+	# provides  => {
+	# 	exists => 'has_metadata',
+	# 	keys   => 'metadata_ids',
+	# 	get    => 'get_metadata',
+	# 	set    => 'set_metadata',
+	# 	},
 	);
 
 has 'organizations' => (
-	metaclass => 'Collection::Hash',
+	traits  => ['Hash'],
 	is        => 'rw',
 	isa       => 'HashRef[Data::SCORM::Organization]',
-	default   => sub { +{} },
-	provides  => {
-		exists => 'has_organization',
-		keys   => 'organization_ids',
-		get    => 'get_organization',
-		set    => 'set_organization',
-		},
+	default=>sub { [] },
+    handles=>{
+			'has_organization'    => 'exists',
+			'organization_ids'    => 'keys',
+			'set_organization'    => 'set',
+			'get_organization'    => 'get',
+    },
 	);
 
+
 has 'resources' => (
-	metaclass => 'Collection::Hash',
+	traits  => ['Hash'],
 	is        => 'rw',
 	isa       => 'HashRef',
 	default   => sub { +{} },
-	provides  => {
-		exists => 'has_resource',
-		keys   => 'resource_ids',
-		get    => 'get_resource',
-		set    => 'set_resource',
+	handles  => {
+	# 	exists => 'has_resource',
+	# 	keys   => 'resource_ids',
+	'get_resource'    => 'get',
+	# 	set    => 'set_resource',
 		},
 	);
 
@@ -107,7 +107,7 @@ sub parsefile {
 
 	my $t = XML::Twig->new(
 		twig_handlers => {
-			'manifest/metadata' => sub { 
+			'manifest/metadata' => sub {
 				my ($t, $metadata) = @_;
 				$data{metadata} = _simplify($metadata);
 				# alternatively $metadata->findnodes('lom:lom')... etc. ->delete
@@ -116,36 +116,36 @@ sub parsefile {
 			'manifest/organizations' => sub {
 				my ($t, $organizations) = @_;
 				my $default = $organizations->att('default'); # required
-				my %organizations = map { 
+				my %organizations = map {
 					my $id = $_->att('identifier');
 					# we want only <item> to be an array
-					my @items = map { 
-						$_->delete; 
-						Data::SCORM::Item->new(%{ 
-							_simplify($_) 
+					my @items = map {
+						$_->delete;
+						Data::SCORM::Item->new(%{
+							_simplify($_)
 						})
-						} 
+						}
 						$_->findnodes('item');
 					my $org = $_->simplify;
 					$org->{items} = \@items;
 
 					($id => Data::SCORM::Organization->new( %$org ))
 					}
-					$organizations->children; 
+					$organizations->children;
 					# findnodes('organization')
 				$organizations{default} = $organizations{$default};
 				$data{organizations} = \%organizations;
 			  },
 			'manifest/resources' => sub {
 				my ($t, $resources) = @_;
-				my %resources = map 
-					{ 
+				my %resources = map
+					{
 					  my $res = _simplify($_);
 					  my $res_object = Data::SCORM::Resource->new(%$res);
 					  # warn Dumper($res, $res_object);
 					  ($_->att('identifier') => $res_object);
 					}
-					$resources->children; 
+					$resources->children;
 					# findnodes('resource')
 				$data{resources} = \%resources;
 			  },
@@ -182,7 +182,7 @@ sub as_hoh {
 		my %org = %$org;
 		$org{resources} = \@resources;
 
-        my @items = map { 
+        my @items = map {
             my $item = { %$_ };
             $item->{resource} = { %{ $item->{resource} } };
             $item;
@@ -206,7 +206,7 @@ sub to_json {
 }
 
 # __PACKAGE__->make_immutable;
-no Any::Moose;
+# no Any::Moose;
 
 =head1 AUTHOR
 

@@ -1,7 +1,7 @@
 package Data::SCORM;
 
-use Any::Moose;
-use Any::Moose qw/ ::Util::TypeConstraints /;
+use Moose;
+use Moose::Util::TypeConstraints;
 use Data::SCORM::Manifest;
 use File::Temp qw/ tempdir /;
 use Path::Class::Dir;
@@ -38,19 +38,19 @@ subtype 'PathClassDir'
 
 coerce 'PathClassDir'
 	=> from 'Str'
-		=> via { Path::Class::Dir->new($_) };
+	=> via { Path::Class::Dir->new($_) };
 
 has 'path' => (
 	is        => 'rw',
 	isa       => 'PathClassDir',
 	coerce    => 1,
-	);
+);
 
 sub extract_from_pif {
 	my ($class, $pif, $path) = @_;
-	
+
 	$path ||= tempdir; # no cleanup?, as caller may want to rename etc.
-	
+
     my $status = unzip ($pif, $path);
     die "Couldn't extract pif $pif, $status"
         if $status;
@@ -65,7 +65,7 @@ sub unzip {
     # so we'll use unzip for now.
 
     my ($pif, $path) = @_;
-    my $status = run 
+    my $status = run
         [ unzip => $pif,
            -d => $path ], '>', '/dev/null';
 
@@ -93,12 +93,12 @@ sub from_dir {
 		  );
 	} else {
         # may be a single directory
-        my @subdirectories = 
-            grep { 
+        my @subdirectories =
+            grep {
                 my $name = ($_->dir_list)[-1];
-                $name !~/^__/ 
+                $name !~/^__/
             } # e.g. __MACOSX
-            grep $_->is_dir, 
+            grep $_->is_dir,
             $path->children;
         if (@subdirectories == 1) {
             return $class->from_dir( $subdirectories[0] );
@@ -108,7 +108,7 @@ sub from_dir {
 }
 
 # __PACKAGE__->make_immutable;
-no Any::Moose;
+# no Any::Moose;
 
 =head1 AUTHOR
 

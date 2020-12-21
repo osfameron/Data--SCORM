@@ -1,14 +1,12 @@
 package Data::SCORM::Organization;
 
-use Any::Moose;
-use Any::Moose qw/ X::AttributeHelpers /;
-use Any::Moose qw/ ::Util::TypeConstraints /;
+use Moose;
 use Data::SCORM::Item;
 use Data::SCORM::Types;
 
 =head1 NAME
 
-Data::SCORM::Organization 
+Data::SCORM::Organization
 
 =head1 VERSION
 
@@ -30,20 +28,18 @@ has 'title' => (
 has 'objectivesGlobalToSystem' => (
         is        => 'rw',
         isa       => 'Bool',
-	coerce    => 1,
+	# coerce    => 1,
         );
 
 has 'items' => (
-        metaclass => 'Collection::Array',
-        is        => 'rw',
-        isa       => 'ArrayRef[Data::SCORM::Item]',
-        default   => sub { +[] },
-        provides  => {
-                elements => 'all_items',
-                count    => 'count_items',
-		get      => 'get_item',
-		map      => 'map_items',
-	  },
+	traits  => ['Array'],
+  is        => 'rw',
+  isa       => 'ArrayRef[Data::SCORM::Item]',
+  default=>sub { [] },
+  handles=>{
+    all_items    => 'elements',
+      get_item    => 'get',
+  },
         );
 
 =head1 SYNOPSIS
@@ -51,7 +47,7 @@ has 'items' => (
 =cut
 
 # __PACKAGE__->make_immutable;
-no Any::Moose;
+# no Any::Moose;
 
 =head1 AUTHOR
 

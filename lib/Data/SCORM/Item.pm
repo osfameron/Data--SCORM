@@ -1,12 +1,11 @@
 package Data::SCORM::Item;
 
-use Any::Moose;
-use Any::Moose qw/ ::Util::TypeConstraints /;
+use Moose;
 use Data::SCORM::Types;
 
 =head1 NAME
 
-Data::SCORM::Item 
+Data::SCORM::Item
 
 =head1 VERSION
 
@@ -36,7 +35,7 @@ has 'resource' => (
 has 'isvisible' => (
         is        => 'rw',
         isa       => 'Bool',
-	coerce    => 1,
+	      coerce    => 1,
         );
 
 =head1 SYNOPSIS
@@ -44,7 +43,7 @@ has 'isvisible' => (
 =cut
 
 # __PACKAGE__->make_immutable;
-no Any::Moose;
+# no Any::Moose;
 
 =head1 AUTHOR
 

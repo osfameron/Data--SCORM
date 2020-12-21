@@ -1,14 +1,14 @@
 package Data::SCORM::Resource;
 
-use Any::Moose;
-use Any::Moose qw/ ::Util::TypeConstraints /;
+use Moose;
+use Moose::Util::TypeConstraints;
 use Data::SCORM::Types;
 
-use Params::Coerce;
+# use Params::Coerce;
 
 =head1 NAME
 
-Data::SCORM::Resource 
+Data::SCORM::Resource
 
 =head1 VERSION
 
@@ -26,26 +26,31 @@ has 'scormtype' => (
         is        => 'rw',
         isa       => 'Str',
         );
-has 'type' => (
-        is        => 'rw',
-        isa       => 'Str',
-        );
+
+# has 'type' => (
+#   is        => 'rw',
+#   isa       => 'Str',
+# );
+
 has 'href' => ( # optional attribute
         is        => 'rw',
         isa       => 'Maybe[Str]',
         );
 
-subtype 'Dependency' 
-    => as 'Maybe[ArrayRef[HashRef]]';
+subtype 'Dependency'
+  => as 'Maybe[ArrayRef[HashRef]]';
+
+use Data::Dumper;
+
 coerce 'Dependency'
-    => from 'HashRef'
-        => via { [ $_ ] };
+  => from 'HashRef'
+  => via { [ $_ ] };
 
 has 'dependency' => ( # optional attribute
-        is        => 'rw',
-        isa       => 'Dependency',
-        coerce    => 1,
-        );
+  is        => 'rw',
+  isa       => 'Dependency',
+  coerce    => 1,
+);
 
 
 subtype 'ListOfFiles'
@@ -53,28 +58,28 @@ subtype 'ListOfFiles'
 
 coerce 'ListOfFiles'
 	=> from 'HashRef'
-		=> via { [$_] };
+	=> via { [$_] };
+
 
 has 'file' => (
-	metaclass => 'Collection::Array',
-        is        => 'rw',
-        isa       => 'ListOfFiles',
-	default   => sub { +[] },
-	coerce    => 1,
-	provides => {
-		elements => 'all_files',
-		count    => 'count_files',
-		get      => 'get_file',
-		map      => 'map_files',
-	  },
-        );
+	traits  => ['Array'],
+  is        => 'rw',
+  isa       => 'ListOfFiles',
+  default   =>sub { [] },
+  coerce    => 1,
+  handles   => {
+    all_files   => 'elements',
+    get_item    => 'get',
+    set_item    => 'set',
+  },
+);
 
 =head1 SYNOPSIS
 
 =cut
 
 # __PACKAGE__->make_immutable;
-no Any::Moose;
+# no Any::Moose;
 
 =head1 AUTHOR
 
