@@ -1,12 +1,11 @@
 package Data::SCORM::Item;
 
-use Any::Moose;
-use Any::Moose qw/ ::Util::TypeConstraints /;
+use Moose;
 use Data::SCORM::Types;
 
 =head1 NAME
 
-Data::SCORM::Item 
+Data::SCORM::Item
 
 =head1 VERSION
 
@@ -18,15 +17,15 @@ our $VERSION = '0.01';
 
 has 'identifier' => (
         is        => 'rw',
-        isa       => 'Str',
+        # isa       => 'Str',
         );
 has 'identifierref' => (
         is        => 'rw',
-        isa       => 'Str',
+        # isa       => 'Str',
         );
 has 'title' => (
         is        => 'rw',
-        isa       => 'Str',
+        # isa       => 'Str',
         );
 has 'resource' => (
         is        => 'rw',
@@ -35,8 +34,8 @@ has 'resource' => (
 
 has 'isvisible' => (
         is        => 'rw',
-        isa       => 'Bool',
-	coerce    => 1,
+        isa       => 'Any',
+	# coerce    => 1,
         );
 
 =head1 SYNOPSIS
@@ -44,7 +43,7 @@ has 'isvisible' => (
 =cut
 
 # __PACKAGE__->make_immutable;
-no Any::Moose;
+# no Any::Moose;
 
 =head1 AUTHOR
 
